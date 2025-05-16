@@ -1,0 +1,9 @@
+{
+  "docker": {
+    "command": "npx",
+    "args": ["-y", "mcp-server-kubernetes"],
+    "env": {
+      "DOCKER_HOST": "tcp://localhost:2375"
+    }
+  }
+}

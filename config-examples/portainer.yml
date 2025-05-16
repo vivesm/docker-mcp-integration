@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    # Only expose Portainer on Tailscale network
+    ports:
+      - "127.0.0.1:9443:9443"
+      - "100.84.182.31:9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+      - /etc/localtime:/etc/localtime:ro
+      - ./portainer/stacks:/stacks
+    environment:
+      - TZ=America/New_York
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    networks:
+      - stringbits_net
+      - docker_stringbits_net
+
+networks:
+  stringbits_net:
+    external: true
+  docker_stringbits_net:
+    external: true
+
+volumes:
+  portainer_data:
+    name: portainer_data
